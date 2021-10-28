@@ -14,6 +14,7 @@ class ElectionListAdapter(private val clickListener: ElectionListener): ListAdap
     //TODO: Bind ViewHolder
 
     //TODO: Add companion object to inflate ViewHolder (from)
+    // 123
 }
 
 //TODO: Create ElectionViewHolder

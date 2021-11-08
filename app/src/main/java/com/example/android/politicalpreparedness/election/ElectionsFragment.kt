@@ -4,21 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 
 class ElectionsFragment: Fragment() {
 
-    //TODO: Declare ViewModel
+    //TODO: (Ok) Declare ViewModel
+    private val viewModel: ElectionsViewModel by lazy{
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = ElectionsViewModelFactory(application)
+        ViewModelProvider(this, viewModelFactory)
+            .get(ElectionsViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        val binding = FragmentElectionBinding.inflate(inflater)
         //TODO: Add ViewModel values and create ViewModel
+        viewModel.refreshElections()
 
         //TODO: Add binding values
+        val binding = FragmentElectionBinding.inflate(inflater)
 
         //TODO: Link elections to voter info
 

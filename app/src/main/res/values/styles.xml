@@ -10,5 +10,17 @@
     </style>
 
     <!-- TODO: Add necessary styles -->
+    <style name="TextViewNameStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextViewCommonStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/gray50</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
 </resources>

@@ -27,7 +27,7 @@ class RepresentativeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         //TODO: (Ok) Establish bindings
         val binding = FragmentRepresentativeBinding.inflate(layoutInflater)

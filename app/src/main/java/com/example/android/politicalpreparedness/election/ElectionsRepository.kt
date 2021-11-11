@@ -1,48 +1,71 @@
 package com.example.android.politicalpreparedness.election
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.RepresentativeResponse
-import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-class ElectionsRepository(private val database: ElectionDatabase) {
+class ElectionsRepository(val database: ElectionDatabase) {
     val savedElections: LiveData<List<Election>> = database.electionDao.getAllElections()
 
-    private val _upcommingElections = MutableLiveData<List<Election>>()
-    val upcommingElections: LiveData<List<Election>> get() = _upcommingElections
+    private val _upcomingElections = MutableLiveData<List<Election>>()
+    val upcomingElections: LiveData<List<Election>> get() = _upcomingElections
+
+    private val _election = MutableLiveData<Election>()
+    val election: LiveData<Election> get() = _election
+
+    private val _isSaved = MutableLiveData<Boolean>()
+    val isSaved: LiveData<Boolean> get() = _isSaved
 
 
-    val voterInfo =  MutableLiveData<VoterInfoResponse>()
-    val representatives =  MutableLiveData<RepresentativeResponse>()
-    fun getElection(id: Int) = database.electionDao.getElectionById(id)
+    init{
+        _isSaved.postValue(false)
+    }
 
-    suspend fun getVoterInfo(electionId: Int, address: String) {
+    suspend fun getUpcomingElections() {
         try {
             withContext(Dispatchers.IO) {
-                val response = CivicsApi.retrofitService.getVoterInfoAsync(electionId, address).await()
-                voterInfo.postValue(response)
+                val electionResponse = CivicsApi.retrofitService.getElectionsAsync().await()
+                _upcomingElections.postValue(electionResponse.elections)
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    suspend fun refreshElections() {
-        try {
-            withContext(Dispatchers.IO) {
-                val electionResponse = CivicsApi.retrofitService.getElectionsAsync().await()
-                _upcommingElections.postValue(electionResponse.elections)
-                database.electionDao.insertElections(electionResponse.elections)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+    suspend fun saveElection(value: Election){
+        withContext(Dispatchers.IO) {
+            database.electionDao.saveElection(value)
         }
+    }
+
+    suspend fun deleteElection(id: Int){
+        withContext(Dispatchers.IO) {
+            database.electionDao.deleteElection(id)
+        }
+    }
+
+
+    suspend fun getElection(id: Int){
+        withContext(Dispatchers.IO) {
+            try {
+                _isSaved.postValue(false)
+                var savedElection = database.electionDao.getElectionById(id)
+                savedElection.value?.let{
+                    _isSaved.postValue(true)
+                }
+            }catch(e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun setElection(value: Election){
+        _election.postValue(value)
     }
 }

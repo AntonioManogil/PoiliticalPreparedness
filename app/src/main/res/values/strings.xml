@@ -5,7 +5,7 @@
     <!-- TODO: (Ok) Add necessary string values -->
     <!-- launch fragment -->
     <string name="find_my_representatives">Find my representatives</string>
-    <string name="upcoming_elections">Upcoming elections</string>
+    <string name="upcoming_elections">Upcoming Elections</string>
     <string name="image_description_ballot_logo">A image of voting</string>
 
     <!-- elections fragment -->
@@ -32,4 +32,12 @@
     <string name="text_api_status_loading">Loading</string>
     <string name="text_api_status_error">Error when retrieving representatives</string>
     <string name="representative_photo">"Representative Photo "</string>
+    <string name="saved_elections">Saved Elections</string>
+    <string name="election_information">Election Information</string>
+    <string name="follow_election">Fallow Election</string>
+    <string name="ballot_information">Ballot Information</string>
+    <string name="corresponding_address">Corresponding address</string>
+    <string name="voting_location">Voting Location</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
 </resources>

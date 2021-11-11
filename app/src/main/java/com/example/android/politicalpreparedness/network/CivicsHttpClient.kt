@@ -6,7 +6,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 class CivicsHttpClient : OkHttpClient() {
 
     companion object {
-
         private const val API_KEY =
             "AIzaSyDBCuc0TPzbr6jb8XnLD4MiSozCpFTOguo" //TODO: Ok Place your API Key Here
 
@@ -29,7 +28,7 @@ class CivicsHttpClient : OkHttpClient() {
                         .url(url)
                         .build()
                     chain.proceed(request)
-                }.addInterceptor(interceptor)
+                }
                 .build()
         }
     }

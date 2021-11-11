@@ -12,15 +12,15 @@ class ElectionsViewModel(application: Application) : AndroidViewModel(applicatio
     private val electionsRepository = ElectionsRepository(database)
 
     //TODO: (Ok) Create live data val for upcoming elections
-    val upcomingElections = electionsRepository.upcommingElections
+    val upcomingElections = electionsRepository.upcomingElections
 
     //TODO: (Ok) Create live data val for saved elections
     val savedElections = electionsRepository.savedElections
 
     //TODO: (Ok) Create val and functions to populate live data for upcoming elections from the API and saved elections from local database
-    fun refreshElections(){
+    fun catchUpcomingElections(){
         viewModelScope.launch {
-            electionsRepository.refreshElections()
+            electionsRepository.getUpcomingElections()
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Address
+import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import java.util.Locale
 
 class RepresentativeFragment : Fragment() {
@@ -24,6 +25,7 @@ class RepresentativeFragment : Fragment() {
         ViewModelProvider(this).get(RepresentativeViewModel::class.java)
     }
 
+    private lateinit var representativeAdapter: RepresentativeListAdapter
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -34,6 +36,8 @@ class RepresentativeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.representativeViewModel = representativeViewModel
         //TODO: Define and assign Representative adapter
+        representativeAdapter = RepresentativeListAdapter()
+        //binding.representativesRecyclerView.adapter = representativeAdapter
 
 
         //TODO: Populate Representative adapter

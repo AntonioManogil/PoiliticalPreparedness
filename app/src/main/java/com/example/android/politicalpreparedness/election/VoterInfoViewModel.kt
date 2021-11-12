@@ -2,14 +2,12 @@ package com.example.android.politicalpreparedness.election
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.database.ElectionDatabase.Companion.getInstance
 import com.example.android.politicalpreparedness.network.models.Election
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 class VoterInfoViewModel(application: Application) : AndroidViewModel(application){
     private val database = getInstance(application)
@@ -29,29 +27,35 @@ class VoterInfoViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     //TODO: (Ok) Add var and methods to support loading URLs
-    var _url = MutableLiveData<String>()
+    private val _url = MutableLiveData<String>()
+    val url: LiveData<String> get() = _url
+
     fun intentUrl(url: String) {
         _url.value = url
     }
 
     //TODO: (Ok) Add var and methods to save and remove elections to local database
-    fun saveElection(value: Election){
+    fun saveOrDeleteElection(value: Election){
         viewModelScope.launch {
-            electionsRepository.saveElection(value)
+            if(isSaved.value!!){
+                electionsRepository.deleteElection(value.id)
+            }else {
+                electionsRepository.saveElection(value)
+            }
         }
     }
 
-    suspend fun deleteElection(id: Int){
-        viewModelScope.launch {
-            deleteElection(id)
-        }
-    }
+    //suspend fun deleteElection(id: Int){
+    //    viewModelScope.launch {
+    //        deleteElection(id)
+    //    }
+    //}
 
-    suspend fun getElection(id: Int){
-        viewModelScope.launch {
-            electionsRepository.getElection(id)
-        }
-    }
+    //suspend fun getElection(id: Int){
+    //    viewModelScope.launch {
+    //        electionsRepository.getElection(id)
+    //    }
+    //}
 
     fun setElection(value: Election){
         viewModelScope.launch {

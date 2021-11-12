@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.android.politicalpreparedness.network.models.Election
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ElectionDao {
@@ -20,7 +21,7 @@ interface ElectionDao {
 
     //TODO: (Ok) Add select single election query
     @Query("SELECT * FROM election_table WHERE id=:id")
-    fun getElectionById(id: Int): LiveData<Election>
+    fun getElectionById(id: Int): Flow<Election>
 
     //TODO: (Ok) Add delete query
     @Query("DELETE FROM election_table where id=:id")
